@@ -1,0 +1,333 @@
+1.  What is Spring Boot?
+Ans: 1. Spring Boot is a Java framework, that makes easy to create java application.
+     2. It simplifies the configuration, using auto-configuration.( no need to do XML configuration)
+	 3. It solve dependency management, no need to handle dependencies manually.
+	    Suppose we want web dependency  we can add <spring-boot-starter-web>
+		it will download and add all web related dependencies in our project and also do auto-configure.
+     4.	It provides Embedded Server(Tomcat)	
+	 5. It provides capability of Rapid Application Developement(RAD),
+	    using spring initializer we can simply create project and can add all required dependencies.
+	 
+2. Why spring boot over spring?
+Ans: 1. Easy to use- remove boilerplate codes
+     2. Rapid Developement- auto-configure enables developer to quickly develop apps.
+	 3. Embedded Server: tomcat
+	 
+3. Working of spring boot?
+Ans: 1. When we build(maven build/reload) our project then dependencies will be download.
+Ans: 2. When we run our Spring Boot project then it starts scanning the starter dependencies in pom.xml and
+        do auto-configuration for all dependencies.
+        
+4. How spring boot starts?
+Ans: 1. Starts by calling main() method of main class.
+     2. After that run() method of SpringApplication called, and this run method startes the application on embedded
+        web server by creating an application context and initializing it.
+	    
+	
+		Application context is a Container of Beans.
+		
+		//Key Points about ApplicationContext:
+        Container of Beans: ApplicationContext reads the configuration (either XML or annotations) to create the beans 
+		                    and inject their dependencies.
+
+        Dependency Injection: The ApplicationContext manages the dependencies of beans using either constructor or 
+		                      setter injection.
+
+
+=========================================================================================================================	 
+5. What is 	@SpringBootApplication?
+Ans: It is the combination of below 3 annotations:
+     1. @Configuration: It specify that we can create beans inside this class.
+	 2. @EnabaleAutoConfiguration: 
+	 3. @ComponentScan: It scane current packages and their sub-packages. If we want to scan outer package then we
+	                    need to mention that package inside @ComponentScan(outerpackage).
+						
+						
+6. What is @Component?
+Ans: it is use to create beans.			
+
+7. What is @Autowired?
+Ans: It inject object of 1 class to another class.	
+     @Autowired
+     @Repository repo;
+	 
+8. @Service?
+Ans: It is use to annotate classes that contain business logic.
+
+9. @RestController?
+Ans: To mark class as Rest Controller. It is the combination of @Controller and @ResponseBody
+    
+     @Controller: return HTMl page.
+	 @RestController: returns JSON.
+	 
+10.	@RequestMapping?
+ANS: It is used to map specific url to method in controller class. It is used on class as well as method level.
+
+11.@Repository?
+Ans: Mark class as DAO.  Mostly used on class that has database persistent logic.
+
+Notes: @Component, @Service and @Repository all creates components(means we have bean after using these annotations),
+       but we use to specify our porpose.
+
+=========================================================================================================================
+12. What are the Spring Boot Starters?
+Ans: Starters are a collection of pre-configured dependencies.
+     suppose if we use sppring-boot-starter-web, then by default we will have below dependencies:
+	 
+	 <artifactId>spring-boot-starter-json</artifactId>
+	 <artifactId>spring-boot-starter-tomcat</artifactId>
+	 <artifactId>spring-web</artifactId>
+	 <artifactId>spring-webmvc</artifactId>
+	 
+
+13. What are the key dependencies of spring boot?
+Ans: 1. spring-boot-starter-parent: It provide defualt configuration for spring based project.
+        a. provide dependency management feature, manages the version of common dependencies.
+		b. provide default compiler level as java 1.8
+		c. provide default configuration for maven plugin, such as maven-jar-plugin / maven-failsafe-plugin
+		
+     2. spring-boot-maven-plugin: To mange maven.
+	 3. spring-boot-starter-test: test related dependenices.
+	 4. spring-boot-starter-security: for authentication and authorization 
+	 5. spring-boot-starter-actuator: for Health check
+	 6. spring-boot-starter-web:
+	 7. .....
+	 
+	 
+14. Can we use only Spring boot dependency feature and configure maven plugin manually?
+Ans: 1.Yes
+     2.First we need to delete "spring-boot-starter-parent" because it provide both feature dependency-management and
+	   Maven plugin configuration.
+	 3.Include the "spring-boot-dependencies" dependency inside the dependencyManagement section.
+	 
+15. What is spring-boot-CLI and what are its benefits?
+Ans: It is a tool to create Spring-project.
+
+16. What is thymeleaf?
+Ans: Java-based server-side templating engine used in java web applications to create dynamic web pages.
+
+====================================================Spring-Core==========================================================
+1. What is IOC/inversion of controll?
+Ans:It is a container, which create object and add this object to other classes.
+    overall its manage dependencies.
+    
+	
+	// here car depends on petroll
+	class Petroll
+	{
+	}
+	class Car{
+	  Petroll p = new Petroll();
+	}
+	
+2. Explain Spring bean-life-cycle?
+Ans: 
+
+     // bean: simple java object
+     class Student
+	 {
+	  
+	 }
+	 
+	 Life cycle means
+	 1. How object is born
+	 2. How it behaves(Whole life-cycle)
+	 3. How it dies.
+	 
+	 Spring bean life cycle is maintained by IOC container(Application context is our container)
+	 1. Container Started-> Bean initialized -> dependencies injected -> custom init() method--> custom utility method()
+	                        --> custom destroy() method.
+							
+	 
+	 a. @postConstruct: used on method, and execute after bean initialized
+	 b. @PreConstruct: used on method, execute after all utility methods executed.
+	 
+3. What is Bean Factory?
+Ans: 1.This is the root interface for accessing spring bean container.
+     2.It is a actual container that instantiates, configure and manages beans.
+
+     ConfigurableApplicationContext==>ApplicationContext===>ListableBeanFactory===>BeanFactory
+	 
+
+4.	What is difference b/w Beanfactory and  ApplicationContext?
+Ans: ApplicationContext is a child interface of Beanfactory, so it has all method of Beanfactory.
+     It also provide some extra operations.
+	 
+5.  What is difference between constructor and setter injection in spring?
+Ans: In constructor injection it is important to remember type and order of parameter.
+     constructor inject is the mandatory dependency injection and setter is optional.
+
+6. What are the diff module in spring?
+Ans: 1. Core container module===> Dependency injection, IOC container etc.
+     2. Application context module
+     3. AOP module
+     4. ORM	 
+     5. Web 
+	 6. Test
+	 
+7. Diff b/w @Autowired and @Inject
+Ans: @Autowired ===> Injecting object.
+     @Inject annotation also do same work as @Autowired
+	  
+	  @Inject: It is Standard annotation for dependency injection, In future If we change our project in 
+	   other framework then @Inject will work, @Autowired will not work.
+	   
+	  @Autowired: It is spring specific annotation.
+ 
+8. D/f b/w @Bean and @Component
+Ans: @Component: It is used on class, and spring will create bean for that class, no need to create bean
+                 manually.
+				 
+	 @Bean: It is used on method, and and we can create our logic inside @Bean annotated method			 
+ 
+9. What is autowiring, and what are autowiring modes
+Ans: Injecting the Bean(object) automatically. We no need to create logic for injecting object.
+
+
+     Modes are:
+	 1.no===> this is default mode, it means autowring is not enabled.
+	 2.byName===>injects the bean based on the property name. It uses setter method.
+	 3.byType===> injects the bean based on the property type.It uses setter method.
+	 4.constructor===>It inject the bean using constructor.
+ 
+
+======================================================Sheduling===========================================
+1.How to schedule task in spring boot?
+Ans:  1. Schdeuling is a process to schedule a task to excecute at specific time.
+
+
+
+package com.example.scheduledtasks;
+
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Component
+public class FileCleanupTask {
+
+    // Simulate a cleanup task that runs every 5 seconds after the previous task finishes
+	
+    @Scheduled(fixedDelay = 5000)
+    public void cleanUpTemporaryFiles() {
+        try {
+            // Simulating some work, like cleaning up temporary files
+            System.out.println("Cleanup started at: " + System.currentTimeMillis());
+
+            // Simulating a long-running task (e.g., file deletion or database cleanup)
+            Thread.sleep(3000);  // Simulate task running for 3 seconds
+
+            System.out.println("Cleanup finished at: " + System.currentTimeMillis());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+@Scheduled(fixedDelay = 5000): This annotation ensures that the cleanUpTemporaryFiles method will 
+run every 5 seconds after the completion of the previous execution. The delay starts after the task 
+has completed.
+
+Thread.sleep(3000): Here, we're simulating a cleanup task that takes 3 seconds to complete 
+(representing the time it takes to clean up files, for example).
+
+System.currentTimeMillis(): This is used to log the time when the task starts and finishes so
+ we can see the fixed delay in action.
+======================================================AOP====================================================
+
+
+======================================================Chaching===========================================
+1.What is cache memory in spring boot?
+Ans: It is a temprory memory which exist in Heap memory area/External cache system like Redis.
+
+2.Why We use Caching?
+Ans: Fetching =====>We can retrive data faster as compared to fetching data from Database/Backend System.
+     Decrease Load=> It decreases the number of calls to backend service/Database.
+	 Improve Scalability=> Help application to handle large traffic loads.
+	 
+	 
+	 
+	 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+
+@SpringBootApplication
+@EnableCaching
+public class CachingApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(CachingApplication.class, args);
+    }
+}
+
+=============================
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    // Cache the result of this method with the key 'user_{id}'
+    @Cacheable(value = "users", key = "#id")
+    public String getUserById(int id) {
+        simulateSlowService(); // Simulate a slow method
+        return "User" + id;
+    }
+
+    // Simulating a slow service (e.g., database call)
+    private void simulateSlowService() {
+        try {
+            Thread.sleep(3000); // 3 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+================================================@CacheEvict
+1. Evict removes a cached entry from a cache
+2.value: Specifies the name of the cache where the entry is stored.
+3. key: The key that is used to store the cache entry
+
+
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    // Evict the cache entry with the key 'user_{id}' after a user is deleted
+    @CacheEvict(value = "users", key = "#id")
+    public void deleteUser(int id) {
+        // Code to delete the user from the database
+        System.out.println("User with id " + id + " deleted.");
+    }
+
+    // Evict all entries in the 'users' cache (e.g., when clearing all users)
+    @CacheEvict(value = "users", allEntries = true)
+    public void clearUserCache() {
+        System.out.println("All user cache entries have been evicted.");
+    }
+}
+
+===============================================@CachePut
+1.Update the cache: Used when you want to update the cache with the result of a method execution.
+
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    // Update the cache with the latest user data
+    @CachePut(value = "users", key = "#user.id")
+    public User updateUser(User user) {
+        // Code to update the user in the database
+        System.out.println("Updating user: " + user);
+        return user; // The updated user is returned and cached
+    }
+}
+
+     
+====================================================================================================
+How Maven work?
+==>

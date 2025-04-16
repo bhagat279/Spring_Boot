@@ -1,0 +1,86 @@
+=============================================Spring_Boot_Master===================================================
+1.  Why Spring_Framework
+==> Spring Framework solves chalengs which exist with Servlet.
+    1. Removal of Web.XML
+	  .Web.Xml is a configuration file in whcih we do mapping of servlets.(servlets class).
+	   This Web.XML file over the time becomes too big and very dificult to manage and understand.
+	   
+	   <!-- Servlet configuration -->
+	     <servlet>
+          <servlet-name>HelloWorldServlet</servlet-name>
+          <servlet-class>HelloWorldServlet</servlet-class>
+         </servlet>
+
+       <!-- Servlet Mapping -->
+         <servlet-mapping>
+           <servlet-name>HelloWorldServlet</servlet-name>
+           <url-pattern>/hello</url-pattern>
+         </servlet-mapping>
+		 
+	  .spring framework introduce annotation based configuration.
+	    GetMapping(),PostMapping()...
+	  
+	2. IOC(Dependency Injection)
+      .Servlets depends on servlet container to create object and manage its lifecycle.
+	  .IOC is the very flexible way to create object and manage its lifecycle.
+	  
+	3. Unit Testing problem with servlet
+	  . Servlet use new keywork to create object and inject, which make it tight coupling.
+	  
+	    in below example we User object is tightly coupled, unit testing is dificult
+	  
+	    class Payement
+		  {
+		  
+		    User user = new User();
+		    
+		   public int getPayement()
+		   {
+		    return user.getPayementFromUser();
+		   }
+		  }
+		  
+		  class User
+		  {
+		    public int getPayementFromUser()
+		    {
+		      return 5000;
+		    }
+		  }
+		  
+		  ========================================Using IOC(DI)
+		  @Component
+		  class Payment
+		  {
+		  
+	        @Autowired	  
+		    User user;
+			
+		   public int getPayement()
+		   {
+		    return user.getPayementFromUser();
+		   }
+		  }
+		  
+		  @Component
+		  class User
+		  {
+		    public int getPayementFromUser()
+		    {
+		      return 5000;
+		    } 
+		  }
+		  
+		  
+2. Why Spring-Boot
+ANS: 1. Dependency Management: No need to add different dependency separatly,
+        and also there version.
+		
+		explain: When we use spring-boot-starter-web, it contains dependency of Json,Tomcat,webmvc
+		         no need to add all these separatily.
+				 
+				 Also Spring-boot-starter-parent is responsible to manage version of all dependency
+				 according to our spring version like, 3.3.4
+				 
+	  
+	  
